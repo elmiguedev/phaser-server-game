@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import ChobiPng from "../assets/img/chobi.png";
+import ServerManager from "../managers/ServerManager";
 
 
 export default class MainScene extends Phaser.Scene {
@@ -27,6 +28,8 @@ export default class MainScene extends Phaser.Scene {
     create() {
         this.crearChobi();
         this.crearCursores();
+
+        ServerManager.getInstance().conectar();
     }
 
     update() {
