@@ -17,12 +17,26 @@ export default class ServerManager {
     // -----------------------
     
     private socket:any;
+    private loops:any = {
+        
+    };
     
     // metodos
     // -----------------------
-    public conectar() {
+    public conectar(data?:any) {
         this.socket = io();
     }
 
+    public obtenerId() {
+        return this.socket.id;
+    }   
+
+    public enviar(mensaje:string, dato:any) {
+        this.socket.emit(mensaje, dato);
+    }
+
+    public escuchar(mensaje:string, callback:Function) {
+        this.socket.on(mensaje, callback);
+    }
 
 }

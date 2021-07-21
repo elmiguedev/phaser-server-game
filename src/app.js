@@ -9,7 +9,7 @@ const port = process.env.PORT;
 
 // inicializa algunas rutas
 // ------------------------------
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.get("/holi", (req, res) => {
     res.json("holi");
@@ -17,12 +17,31 @@ app.get("/holi", (req, res) => {
 
 // inicializa el server socket 
 // ------------------------------
+const state = {
+    users: {}
+};
+
 io.on('connection', (socket) => {
-    console.log('Usuario conectado:',socket.id);
-     socket.on('disconnect', function () {
-       console.log('Usuario desconectado', socket.id);
+    socket.on('disconnect', function () {
+        delete state.users[socket.id];
+        io.emit("usuario:desconectado",socket.id);
     });
- });
+    socket.on("usuario:init", (dato) => {
+        dato.id = socket.id;
+        state.users[dato.id] = dato;
+        console.log(state.users);
+        socket.emit("usuario:state", state.users);
+        io.emit("usuario:conectado",state.users[socket.id]);
+    });
+    socket.on("usuario:movimiento", (dato) => {
+        dato.id = socket.id;
+        if (state.users[socket.id]) {
+            state.users[dato.id].x = dato.x;
+            state.users[dato.id].y = dato.y;
+            io.emit("usuario:movimiento", dato);
+        }
+    })
+});
 
 // inicializa el servidor
 // ------------------------------
