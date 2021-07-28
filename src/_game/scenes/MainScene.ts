@@ -61,7 +61,6 @@ export default class MainScene extends Phaser.Scene {
     }
 
     crearChobiMalo(chobi) {
-        console.log(chobi)
         if (!this.chobis) this.chobis = new Map<string, Phaser.GameObjects.Image>();
         if (ServerManager.getInstance().obtenerId() != chobi.id) {
             this.chobis[chobi.id] = this.add.image(chobi.x, chobi.y, "Chobi");
