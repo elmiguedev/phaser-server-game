@@ -17,11 +17,8 @@ export default class ServerManager {
     // -----------------------
     
     private socket:any;
-    private loops:any = {
-        
-    };
     
-    // metodos
+    // metodos principales
     // -----------------------
     public conectar(data?:any) {
         this.socket = io();
@@ -38,5 +35,34 @@ export default class ServerManager {
     public escuchar(mensaje:string, callback:Function) {
         this.socket.on(mensaje, callback);
     }
+
+    // listeners
+    // -----------------------
+
+    onUsuarioConectado(callback:Function) {
+        this.escuchar("usuario:conectado", (data) => {
+            callback(data);
+        })
+    }
+
+    onUsuarioDesconectado(callback:Function) {
+        this.escuchar("usuario:desconectado", (data) => {
+            callback(data);
+        })
+    }
+
+    onUsuarioMovimiento(callback:Function) {
+        this.escuchar("usuario:movimiento", (data) => {
+            callback(data);
+        })
+    }
+
+    onUsuarioState(callback:Function) {
+        this.escuchar("usuario:state", (data) => {
+            callback(data);
+        })
+    }
+
+    
 
 }

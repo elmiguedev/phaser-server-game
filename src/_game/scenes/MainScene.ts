@@ -37,10 +37,10 @@ export default class MainScene extends Phaser.Scene {
             y: this.chobi.y
         });
 
-        ServerManager.getInstance().escuchar("usuario:state", (data) => this.crearChobisMalos(data))
-        ServerManager.getInstance().escuchar("usuario:conectado", (data) => this.crearChobiMalo(data))
-        ServerManager.getInstance().escuchar("usuario:movimiento", (data) => this.moverChobiMalo(data))
-        ServerManager.getInstance().escuchar("usuario:desconectado", (data) => this.eliminarChobiMalo(data))
+        ServerManager.getInstance().onUsuarioState((data) => this.crearChobisMalos(data))
+        ServerManager.getInstance().onUsuarioConectado((data) => this.crearChobiMalo(data))
+        ServerManager.getInstance().onUsuarioMovimiento((data) => this.moverChobiMalo(data))
+        ServerManager.getInstance().onUsuarioDesconectado((data) => this.eliminarChobiMalo(data))
 
     }
 
